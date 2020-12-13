@@ -20,6 +20,9 @@ if __name__ == "__main__":
 
     logger.info("Starting HelloSpark")
 
+    conf_out = spark.sparkContext.getConf()
+    logger.info(conf_out.toDebugString())
+
     survey_raw_df = load_survey_df(spark, sys.argv[1])
     partitioned_survey_df = survey_raw_df.repartition(2)
     count_df = count_by_country(partitioned_survey_df)

@@ -10,8 +10,8 @@ if __name__ == "__main__":
         .enableHiveSupport() \
         .getOrCreate()
 
-    logger = Log4j(spark)
 
+    logger = Log4j(spark)
     flightTimeParquetDF = spark.read \
         .format("parquet") \
         .load("dataSource/")
@@ -19,8 +19,18 @@ if __name__ == "__main__":
     spark.sql("CREATE DATABASE IF NOT EXISTS AIRLINE_DB")
     spark.catalog.setCurrentDatabase("AIRLINE_DB")
 
+    # versao usando PARTITION
     flightTimeParquetDF.write \
         .mode("overwrite") \
+        .partitionBy("ORIGIN", "OP_CARRIER") \
         .saveAsTable("flight_data_tbl")
+
+    # versao usando BUCKET
+    # flightTimeParquetDF.write \
+    #     .format("csv") \
+    #     .mode("overwrite") \
+    #     .bucketBy(5, "ORIGIN", "OP_CARRIER") \
+    #     .sortBy("OP_CARRIER", "ORIGIN") \
+    #     .saveAsTable("flight_data_tbl")
 
     logger.info(spark.catalog.listTables("AIRLINE_DB"))

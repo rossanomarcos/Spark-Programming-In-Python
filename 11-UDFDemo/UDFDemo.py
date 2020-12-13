@@ -21,7 +21,7 @@ if __name__ == "__main__":
     spark = SparkSession \
         .builder \
         .appName("UDF Demo") \
-        .master("local[2]") \
+        .master("local[3]") \
         .getOrCreate()
 
     logger = Log4j(spark)
