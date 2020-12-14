@@ -15,7 +15,7 @@ if __name__ == "__main__":
     df2 = spark.read.json("data/d2/")
     # df1.show()
     # df2.show()
-    '''
+
     spark.sql("CREATE DATABASE IF NOT EXISTS MY_DB")
     spark.sql("USE MY_DB")
 
@@ -28,7 +28,6 @@ if __name__ == "__main__":
         .bucketBy(3, "id") \
         .mode("overwrite") \
         .saveAsTable("MY_DB.flight_data2")
-    '''
 
     df3 = spark.read.table("MY_DB.flight_data1")
     df4 = spark.read.table("MY_DB.flight_data2")
@@ -38,7 +37,8 @@ if __name__ == "__main__":
     join_df = df3.join(df4, join_expr, "inner")
 
     join_df.collect()
-    input("press a key to stop...")
+    join_df.show()
+    # input("press a key to stop...")
 
 
 

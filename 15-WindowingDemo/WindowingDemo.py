@@ -14,9 +14,13 @@ if __name__ == "__main__":
 
     summary_df = spark.read.parquet("data/summary.parquet")
 
+    # running_total_window = Window.partitionBy("Country") \
+    #     .orderBy("WeekNumber") \
+    #     .rowsBetween(-2, Window.currentRow)
+
     running_total_window = Window.partitionBy("Country") \
         .orderBy("WeekNumber") \
-        .rowsBetween(-2, Window.currentRow)
+        .rowsBetween(Window.unboundedPreceding, Window.currentRow)
 
     summary_df.withColumn("RunningTotal",
                           f.sum("InvoiceValue").over(running_total_window)) \

@@ -20,4 +20,6 @@ if __name__ == "__main__":
     join_df = flight_time_df1.join(flight_time_df2, join_expr, "inner")
 
     join_df.collect()
-    input("press a key to stop...")
+    #input("press a key to stop...")
+
+    join_df.show()
